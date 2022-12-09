@@ -1,0 +1,9 @@
+module.exports.authValidation = require('./auth.validation');
+module.exports.userValidation = require('./user.validation');
+module.exports.leavePolicyValidation = require('./leavePolicy.validation');
+module.exports.leaveApplicationValidation = require('./leaveApplication.validation');
+module.exports.leaveHistoryValidation = require('./leaveHistory.validation');
+module.exports.roleValidation = require('./role.validation');
+module.exports.levelValidation = require('./level.validation');
+module.exports.searchValidation = require('./search.validation');
+module.exports.staffValidation = require('./staff.validation')
