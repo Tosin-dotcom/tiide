@@ -34,7 +34,6 @@ const getIdOfPeopleWithLeavePermission = async (businessId) => {
   //console.log(allRoles);
   return allRoles;
 };
-
 const userWithLeavePermission = async (businessId) => {
   const roles = await getIdOfPeopleWithLeavePermission(businessId);
   const users = [];
