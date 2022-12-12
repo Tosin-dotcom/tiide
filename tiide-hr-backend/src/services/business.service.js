@@ -1,4 +1,8 @@
+const httpStatus = require('http-status');
+const bcrypt = require('bcryptjs');
+const ApiError = require('../utils/ApiError');
 const { db } = require('../models');
+const logger = require('../config/logger');
 
 /**
  * Check if a business email is already taken.
