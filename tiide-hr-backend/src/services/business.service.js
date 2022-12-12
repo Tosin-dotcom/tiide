@@ -7,8 +7,8 @@ const { db } = require('../models');
  */
 
 const isBusinessEmailTaken = async function (email) {
-  const email = await db.business.findOne({ where: { email } });
-  return !!email;
+  const emails = await db.business.findOne({ where: { email } });
+  return !!emails;
 };
 
 /**
