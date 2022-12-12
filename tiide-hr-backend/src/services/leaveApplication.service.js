@@ -34,7 +34,7 @@ const getLeaveApplications = async (businessId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  const leaveApplication = await db.leaveApplication.findAll({ where: { businessId } });
+  const leaveApplication = await db.leaveApplication.findAll({ where: { businessId }, include: db.users });
   return leaveApplication;
 };
 
@@ -42,7 +42,7 @@ const getLeaveApplicationsOfStaff = async (businessId, userId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  const leaveApplication = await db.leaveApplication.findAll({ where: { businessId, userId } });
+  const leaveApplication = await db.leaveApplication.findAll({ where: { businessId, userId }, inlcude:db.users });
   return leaveApplication;
 };
 
@@ -50,7 +50,7 @@ const getLeaveApplicationById = async (leaveApplicationId, businessId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  return db.leaveApplication.findOne({ where: { id: leaveApplicationId, businessId } });
+  return db.leaveApplication.findOne({ where: { id: leaveApplicationId, businessId }, include:db.users });
 };
 
 const updateLeaveApplicationById = async (leaveApplicationId, updateBody, businessId) => {
