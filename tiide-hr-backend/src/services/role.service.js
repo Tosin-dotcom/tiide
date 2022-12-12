@@ -102,10 +102,8 @@ const getAllRoles = async (businessId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  const all = await userWithLeavePermission(businessId);
-  const allRoles = await getIdOfPeopleWithLeavePermission(businessId);
-  console.log(all);
-  const allRole = db.role.findAll({ where: { businessId } }, { include: db.permissions });
+  
+  const allRole = db.role.findAll({ where: { businessId }, include: db.permissions });
 
   return allRole;
 };
