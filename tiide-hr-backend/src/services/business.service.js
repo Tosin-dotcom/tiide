@@ -1,12 +1,25 @@
 const { db } = require('../models');
 
 /**
+ * Check if a business email is already taken.
+ * @param email - The email address to check
+ * @returns A boolean value.
+ */
+
+const isBusinessEmailTaken = async function (email) {
+  const email = await db.business.findOne({ where: { email } });
+  return !!email;
+};
+
+/**
  * This function creates a business in the database and returns the created business.
  * @param businessBody - {
  * @returns The business object that was created.
  */
-
 const createBusiness = async (businessBody) => {
+  if (await isBusinessEmailTaken(businessBody.email)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+  }
   return db.business.create(businessBody);
 };
 
