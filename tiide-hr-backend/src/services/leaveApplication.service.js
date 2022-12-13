@@ -28,10 +28,10 @@ const createLeaveApplication = async (leaveApplicationBody, businessId, userId) 
   leaveApplicationBody.duration = diffDays;
   leaveApplicationBody.businessId = businessId;
   leaveApplicationBody.userId = userId;
-  const leaveApprovalId = await notificationService.userWithLeavePermission(businessId);
-  for (let leaveId of leaveApprovalId) {
-    notificationService.createNotification(body, businessId, leaveId);
-  }
+  // const leaveApprovalId = await notificationService.userWithLeavePermission(businessId);
+  // for (let leaveId of leaveApprovalId) {
+  //   notificationService.createNotification(body, businessId, leaveId);
+  // }
   return db.leaveApplication.create(leaveApplicationBody);
 };
 
