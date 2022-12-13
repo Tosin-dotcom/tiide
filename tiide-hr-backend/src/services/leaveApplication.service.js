@@ -80,7 +80,7 @@ const updateLeaveApplicationById = async (leaveApplicationId, updateBody, busine
   }
 
   if (!updateBody.endDate) {
-    date2 = await db.leaveApplication.endDate;
+    date2 = await leaveApplication.endDate;
   } else {
     date2 = new Date(updateBody.endDate);
   }
