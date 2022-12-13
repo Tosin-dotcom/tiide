@@ -3,7 +3,6 @@ module.exports = (sequelize, dataType) => {
     title: {
       type: dataType.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         notNull: { msg: 'Please get type of leave' },
       },

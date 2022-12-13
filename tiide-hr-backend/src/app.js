@@ -93,7 +93,7 @@ const permission = [
   },
 ];
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync({ force: true }).then(() => {
   db.permissions.bulkCreate(permission, {
     updateOnDuplicate: ['name', 'description', 'groupName', 'value'],
   });
