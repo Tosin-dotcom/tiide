@@ -3,6 +3,31 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const { userService } = require('.');
 
+const idOfLeavePermission = async () => {
+  const leave = await db.permissions.findOne({ where: { value: 'manageLeave' } });
+  return leave.dataValues.id;
+};
+
+const getIdOfPeopleWithLeavePermission = async (businessId) => {
+  const leaveId = await idOfLeavePermission();
+  const allRoles = await db.role_permission.findAll(
+    { where: { businessId: businessId, permissionId: leaveId } },
+    { include: { all: true } }
+  );
+  //console.log(allRoles);
+  return allRoles;
+};
+const userWithLeavePermission = async (businessId) => {
+  const roles = await getIdOfPeopleWithLeavePermission(businessId);
+  const users = [];
+  roles.forEach(async (role) => {
+    const user = await db.users.findOne({ where: { roleId: role.dataValues.roleId } });
+    users.push(user.dataValues.id);
+  });
+
+  return users;
+};
+
 /**
  * It creates a notification in the database.
  * @param {Object} notificationBody - {
@@ -63,4 +88,5 @@ module.exports = {
   getNotificationById,
   updateNotificationById,
   deleteNotificationById,
+  userWithLeavePermission,
 };

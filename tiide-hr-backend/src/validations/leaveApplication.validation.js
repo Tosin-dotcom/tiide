@@ -29,6 +29,14 @@ const updateLeaveApplication = {
   params: Joi.object().keys({
     leaveApplicationId: Joi.required().id(),
   }),
+  body: Joi.object().keys({
+    title: Joi.string(),
+    startDate: Joi.date(),
+    endDate: Joi.date(),
+    status: Joi.number(),
+    description: Joi.string().max(400),
+    leavePolicyId: Joi.number(),
+  }),
 };
 
 const deleteLeaveApplication = {

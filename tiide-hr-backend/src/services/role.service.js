@@ -102,7 +102,7 @@ const getAllRoles = async (businessId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  
+
   const allRole = db.role.findAll({ where: { businessId }, include: db.permissions });
 
   return allRole;
@@ -200,4 +200,5 @@ module.exports = {
   getAllRoles,
   getRoleById,
   createAdminRole,
+  userWithLeavePermission,
 };

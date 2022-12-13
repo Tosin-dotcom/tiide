@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { db } = require('../models');
 const ApiError = require('../utils/ApiError');
+const { notificationService } = require('.');
 
 /**
  * It creates a leave application in the database.
@@ -27,6 +28,10 @@ const createLeaveApplication = async (leaveApplicationBody, businessId, userId) 
   leaveApplicationBody.duration = diffDays;
   leaveApplicationBody.businessId = businessId;
   leaveApplicationBody.userId = userId;
+  const leaveApprovalId = await notificationService.userWithLeavePermission(businessId);
+  for (let leaveId of leaveApprovalId) {
+    notificationService.createNotification(body, businessId, leaveId);
+  }
   return db.leaveApplication.create(leaveApplicationBody);
 };
 
@@ -42,7 +47,7 @@ const getLeaveApplicationsOfStaff = async (businessId, userId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  const leaveApplication = await db.leaveApplication.findAll({ where: { businessId, userId }, inlcude:db.users });
+  const leaveApplication = await db.leaveApplication.findAll({ where: { businessId, userId }, inlcude: db.users });
   return leaveApplication;
 };
 
@@ -50,7 +55,7 @@ const getLeaveApplicationById = async (leaveApplicationId, businessId) => {
   if (!businessId) {
     throw new ApiError(httpStatus.NOT_FOUND, 'No business found');
   }
-  return db.leaveApplication.findOne({ where: { id: leaveApplicationId, businessId }, include:db.users });
+  return db.leaveApplication.findOne({ where: { id: leaveApplicationId, businessId }, include: db.users });
 };
 
 const updateLeaveApplicationById = async (leaveApplicationId, updateBody, businessId) => {
@@ -68,13 +73,13 @@ const updateLeaveApplicationById = async (leaveApplicationId, updateBody, busine
   /** Duration update */
   let date1;
   let date2;
-  if (updateBody.startDate === undefined) {
+  if (!updateBody.startDate) {
     date1 = leaveApplication.startDate;
   } else {
     date1 = new Date(updateBody.startDate);
   }
 
-  if (updateBody.endDate === null) {
+  if (!updateBody.endDate) {
     date2 = await db.leaveApplication.endDate;
   } else {
     date2 = new Date(updateBody.endDate);
