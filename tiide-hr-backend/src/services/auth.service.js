@@ -106,17 +106,11 @@ const verifyEmail = async (verifyEmailToken) => {
  * @returns The user object
  */
 
-const getCurrentUser = async (id) => {
-  return db.users.findOne(
-    {
-      attributes: {
-        exclude: ['password', 'isEmailVerified', 'createdAt', 'updatedAt'],
-      },
-    },
-    { where: { id } }
-  );
-};
 
+const getCurrentUser = async (id) => {
+  const user = await db.users.findByPk(id, { include: [{ model: db.business }] });
+  return user;
+};
 module.exports = {
   loginUserWithEmailAndPassword,
   logout,
