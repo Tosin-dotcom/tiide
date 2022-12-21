@@ -108,7 +108,7 @@ const verifyEmail = async (verifyEmailToken) => {
 
 
 const getCurrentUser = async (id) => {
-  const user = await db.users.findByPk(id, { include: [{ model: db.business }] });
+  const user = await db.users.findByPk(id, { include: [{ model: db.business }, {model: db.staffs}] });
   return user;
 };
 module.exports = {
