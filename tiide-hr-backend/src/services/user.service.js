@@ -70,7 +70,7 @@ const getUserById = async (id) => {
  * @returns {Promise<User>}
  */
 const getUserByEmail = async (email) => {
-  return db.users.findOne({ where: { email } });
+  return db.users.findOne({ where: { email }, include: db.staffs });
 };
 
 /**
